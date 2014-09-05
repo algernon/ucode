@@ -124,6 +124,13 @@ int main(void)
     int grabResult=0;
     grabResult=XGrabKey(dpy,
                            XKeysymToKeycode(dpy,XK_U),
+                           ControlMask | ShiftMask,
+                           DefaultRootWindow(dpy),
+                           False,
+                           GrabModeAsync,
+                           GrabModeAsync);
+    grabResult=XGrabKey(dpy,
+                           XKeysymToKeycode(dpy,XK_U),
                            ControlMask | ShiftMask | Mod2Mask,
                            DefaultRootWindow(dpy),
                            False,
