@@ -128,9 +128,8 @@ void enterUnicode()
     // after first one is received — Konsole and sometimes
     // gnome-terminal
     xdo_free(xdo);
-    XCloseDisplay(dpy);
     dpy = XOpenDisplay(0);
-    xdo=xdo_new_with_opened_display(dpy,NULL,False);
+    xdo=xdo_new_with_opened_display(dpy,NULL,True);
     setupHotkey();
 }
 
@@ -144,7 +143,7 @@ int main(void)
         return 1;
     }
 
-    xdo=xdo_new_with_opened_display(dpy,NULL,False);
+    xdo=xdo_new_with_opened_display(dpy,NULL,True);
     if(!xdo)
     {
         fprintf(stderr,"Couldn't initialize libxdo\n");
