@@ -3,7 +3,8 @@ and allows to enter Unicode character by typing its hexadecimal code.
 
 WARNING: the daemon grabs keyboard when Ctrl+Shift+U is pressed, so if
 it appears to have some bug in handling the character code entry, your
-keyboard might remain unusable until you kill the daemon.
+keyboard might remain unusable until you kill the daemon. In such a case
+try first pressing Esc key — chances are the daemon will release the grab.
 
 For compilation you'll need X11 development files (libx11-dev on Ubuntu)
 and libxdo development files (libxdo-dev on Ubuntu).
