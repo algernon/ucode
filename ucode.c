@@ -29,6 +29,21 @@
 xdo_t* xdo=0;
 Display* dpy=0;
 
+void type(const uint32_t charcode)
+{
+    char string[]={(char)(charcode&0xff),(char)((charcode>>8)&0xff),(char)((charcode>>16)&0xff),(char)((charcode>>24)&0xff)};
+    char utf8string[16]={0};
+    size_t inbytes=sizeof string;
+    size_t outbytes=sizeof utf8string;
+    char* ins=string;
+    char* outs=utf8string;
+    iconv_t cd=iconv_open("utf8","utf32");
+    if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
+        perror("iconv");
+    else
+        xdo_type(xdo,CURRENTWINDOW,utf8string,12000);
+}
+
 void enterUnicode()
 {
     XGrabKeyboard(dpy, DefaultRootWindow(dpy), False, GrabModeAsync, GrabModeAsync,CurrentTime);
@@ -82,17 +97,7 @@ void enterUnicode()
     }
     XUngrabKeyboard(dpy, CurrentTime);
 
-    char string[]={(char)(charcode&0xff),(char)((charcode>>8)&0xff),(char)((charcode>>16)&0xff),(char)((charcode>>24)&0xff)};
-    char utf8string[16]={0};
-    size_t inbytes=sizeof string;
-    size_t outbytes=sizeof utf8string;
-    char* ins=string;
-    char* outs=utf8string;
-    iconv_t cd=iconv_open("utf8","utf32");
-    if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
-        perror("iconv");
-    else
-        xdo_type(xdo,CURRENTWINDOW,utf8string,12000);
+    type(charcode);
 }
 
 int main(void)
