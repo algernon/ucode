@@ -29,8 +29,23 @@
 xdo_t* xdo=0;
 Display* dpy=0;
 
-void setupHotkey()
+void initX11()
 {
+    dpy = XOpenDisplay(0);
+
+    if(!dpy)
+    {
+        fprintf(stderr,"Couldn't open X display\n");
+        exit(1);
+    }
+
+    xdo=xdo_new_with_opened_display(dpy,NULL,True);
+    if(!xdo)
+    {
+        fprintf(stderr,"Couldn't initialize libxdo\n");
+        exit(1);
+    }
+
     int grabResult1=0, grabResult2=0;
     grabResult1=XGrabKey(dpy,
                            XKeysymToKeycode(dpy,XK_U),
@@ -51,6 +66,8 @@ void setupHotkey()
         fprintf(stderr,"Failed to grab Ctrl+Shift+U: %d, %d\n",grabResult1,grabResult2);
         exit(1);
     }
+
+    XSelectInput(dpy, DefaultRootWindow(dpy), KeyPressMask);
 }
 
 void type(const uint32_t charcode)
@@ -128,31 +145,12 @@ void enterUnicode()
     // after first one is received — Konsole and sometimes
     // gnome-terminal
     xdo_free(xdo);
-    dpy = XOpenDisplay(0);
-    xdo=xdo_new_with_opened_display(dpy,NULL,True);
-    setupHotkey();
+    initX11();
 }
 
 int main(void)
 {
-    dpy = XOpenDisplay(0);
-
-    if(!dpy)
-    {
-        fprintf(stderr,"Couldn't open X display\n");
-        return 1;
-    }
-
-    xdo=xdo_new_with_opened_display(dpy,NULL,True);
-    if(!xdo)
-    {
-        fprintf(stderr,"Couldn't initialize libxdo\n");
-        return 1;
-    }
-
-    setupHotkey();
-
-    XSelectInput(dpy, DefaultRootWindow(dpy), KeyPressMask);
+    initX11();
 
     XEvent ev;
     while(True)
