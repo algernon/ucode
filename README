@@ -1,0 +1,26 @@
+This program acts as a daemon, which grabs Ctrl+Shift+U key combination
+and allows to enter Unicode character by typing its hexadecimal code.
+
+WARNING: the daemon grabs keyboard when Ctrl+Shift+U is pressed, so if
+it appears to have some bug in handling the character code entry, your
+keyboard might remain unusable until you kill the daemon.
+
+For compilation you'll need X11 development files (libx11-dev on Ubuntu)
+and libxdo development files (libxdo-dev on Ubuntu).
+
+To compile, just run `make` in the source directory. This will give you
+`ucode` binary, which you can install by issuing `make install`.
+
+Default installation location is `/usr/bin/`. You can change it by
+using `make DESTDIR=/my/custom/path install`.
+
+After this, running ucode at X startup would let you now enter Unicode
+characters in any application by using this sequence:
+
+1. Press Ctrl
+2. Press Shift
+3. Type the hexadecimal code, e.g. 3b4 for Greek delta δ
+4. Release Ctrl and Shift
+
+The code entry mode will remain active until both Shift and Ctrl are
+released.
