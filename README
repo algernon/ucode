@@ -7,7 +7,9 @@ keyboard might remain unusable until you kill the daemon. In such a case
 try first pressing Esc key — chances are the daemon will release the grab.
 
 For compilation you'll need X11 development files (libx11-dev on Ubuntu)
-and libxdo development files (libxdo-dev on Ubuntu).
+and libxdo development files (libxdo-dev on Ubuntu). Note that libxdo must
+be of version 2, e.g. as in xdotool-2.20110530. Version 3 doesn't have
+xdo_type() function which this program uses.
 
 To compile, just run `make` in the source directory. This will give you
 `ucode` binary, which you can install by issuing `make install`.
