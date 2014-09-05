@@ -18,6 +18,7 @@
 * License along with this library.
 */
 
+#define _BSD_SOURCE // so that unistd.h did provide usleep
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -25,12 +26,14 @@
 #include <X11/keysym.h>
 #include <iconv.h>
 #include <xdo.h>
+#include <unistd.h>
 
 xdo_t* xdo=0;
 Display* dpy=0;
 
 void type(const uint32_t charcode)
 {
+    usleep(100000);
     char string[]={(char)(charcode&0xff),(char)((charcode>>8)&0xff),(char)((charcode>>16)&0xff),(char)((charcode>>24)&0xff)};
     char utf8string[16]={0};
     size_t inbytes=sizeof string;
