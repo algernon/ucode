@@ -96,6 +96,7 @@ void enterUnicode()
             break;
     }
     XUngrabKeyboard(dpy, CurrentTime);
+    XSync(dpy,False);
 
     type(charcode);
 }
