@@ -118,24 +118,24 @@ int main(void)
         return 1;
     }
 
-    int grabResult=0;
-    grabResult=XGrabKey(dpy,
+    int grabResult1=0, grabResult2=0;
+    grabResult1=XGrabKey(dpy,
                            XKeysymToKeycode(dpy,XK_U),
                            ControlMask | ShiftMask,
                            DefaultRootWindow(dpy),
                            False,
                            GrabModeAsync,
                            GrabModeAsync);
-    grabResult=XGrabKey(dpy,
+    grabResult2=XGrabKey(dpy,
                            XKeysymToKeycode(dpy,XK_U),
                            ControlMask | ShiftMask | Mod2Mask,
                            DefaultRootWindow(dpy),
                            False,
                            GrabModeAsync,
                            GrabModeAsync);
-    if(!grabResult)
+    if(!grabResult1||!grabResult2)
     {
-        fprintf(stderr,"Failed to grab Ctrl+Shift+U: %d\n",grabResult);
+        fprintf(stderr,"Failed to grab Ctrl+Shift+U: %d, %d\n",grabResult1,grabResult2);
         return 1;
     }
 
