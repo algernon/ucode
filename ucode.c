@@ -91,8 +91,8 @@ void enterUnicode()
     iconv_t cd=iconv_open("utf8","utf32");
     if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
         perror("iconv");
-
-    xdo_type(xdo,CURRENTWINDOW,utf8string,12000);
+    else
+        xdo_type(xdo,CURRENTWINDOW,utf8string,12000);
 }
 
 int main(void)
