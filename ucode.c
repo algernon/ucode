@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <iconv.h>
@@ -34,7 +35,7 @@ void enterUnicode()
 
     XEvent ev;
     Bool controlPressed=True, shiftPressed=True;
-    unsigned short charcode=0;
+    uint32_t charcode=0;
     int i=0;
     while(True)
     {
@@ -47,7 +48,7 @@ void enterUnicode()
                 XUngrabKeyboard(dpy, CurrentTime);
                 return;
             }
-            if(i==4)
+            if(i==8)
                 continue;
             if(XK_0 <= key && key <= XK_9)
             {
@@ -81,13 +82,13 @@ void enterUnicode()
     }
     XUngrabKeyboard(dpy, CurrentTime);
 
-    char string[]={(char)(charcode&0xff),(char)(charcode>>8)};
-    char utf8string[4]={0};
+    char string[]={(char)(charcode&0xff),(char)((charcode>>8)&0xff),(char)((charcode>>16)&0xff),(char)((charcode>>24)&0xff)};
+    char utf8string[16]={0};
     size_t inbytes=sizeof string;
     size_t outbytes=sizeof utf8string;
     char* ins=string;
     char* outs=utf8string;
-    iconv_t cd=iconv_open("utf8","ucs2");
+    iconv_t cd=iconv_open("utf8","utf32");
     if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
         perror("iconv");
 
