@@ -120,9 +120,18 @@ void enterUnicode()
             break;
     }
     XUngrabKeyboard(dpy, CurrentTime);
-    XSync(dpy,False);
 
     type(charcode);
+
+    // Reopen display. This is a workaround for strange bug
+    // where some clients don't get subsequent characters
+    // after first one is received — Konsole and sometimes
+    // gnome-terminal
+    xdo_free(xdo);
+    XCloseDisplay(dpy);
+    dpy = XOpenDisplay(0);
+    xdo=xdo_new_with_opened_display(dpy,NULL,False);
+    setupHotkey();
 }
 
 int main(void)
