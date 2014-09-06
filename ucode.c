@@ -124,6 +124,12 @@ void enterUnicode()
                 charcode+=key-XK_a+10;
                 ++i;
             }
+            else if(key==XK_BackSpace && i>0)
+            {
+                // Undo latest received digit
+                charcode>>=4;
+                --i;
+            }
         }
         else if(ev.type == KeyRelease)
         {
