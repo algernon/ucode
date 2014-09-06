@@ -139,18 +139,13 @@ void enterUnicode()
     XUngrabKeyboard(dpy, CurrentTime);
 
     type(charcode);
-
-    // Reopen display. This is a workaround for strange bug
-    // where some clients don't get subsequent characters
-    // after first one is received — Konsole and sometimes
-    // gnome-terminal
-    xdo_free(xdo);
-    initX11();
 }
 
 int main(void)
 {
     initX11();
+    // FIXME: why is this needed to make subsequent xdo_type() calls work correctly?
+    XSynchronize(dpy,True);
 
     XEvent ev;
     while(True)
