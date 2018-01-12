@@ -82,7 +82,7 @@ void type(const uint32_t charcode)
     if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
         perror("iconv");
     else
-        xdo_type(xdo,CURRENTWINDOW,utf8string,12000);
+        xdo_enter_text_window(xdo,CURRENTWINDOW,utf8string,12000);
 }
 
 void enterUnicode()
