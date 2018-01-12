@@ -130,17 +130,11 @@ void enterUnicode()
                 charcode>>=4;
                 --i;
             }
+            else if(key==XK_space)
+            {
+                break;
+            }
         }
-        else if(ev.type == KeyRelease)
-        {
-            KeySym key=XLookupKeysym(&ev.xkey,0);
-            if(key==XK_Shift_L||key==XK_Shift_R)
-                shiftPressed=False;
-            if(key==XK_Control_L||key==XK_Control_R)
-                controlPressed=False;
-        }
-        if(!(controlPressed||shiftPressed))
-            break;
     }
     XUngrabKeyboard(dpy, CurrentTime);
 
