@@ -26,6 +26,8 @@
 #include <iconv.h>
 #include <xdo.h>
 
+#include <unistd.h>
+
 xdo_t* xdo=0;
 Display* dpy=0;
 
@@ -79,10 +81,12 @@ void type(const uint32_t charcode)
     char* ins=string;
     char* outs=utf8string;
     iconv_t cd=iconv_open("utf8","utf32");
-    if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1)
+    if(iconv(cd,&ins,&inbytes,&outs,&outbytes)==-1) {
         perror("iconv");
-    else
+    } else {
+        usleep(50000);
         xdo_enter_text_window(xdo,CURRENTWINDOW,utf8string,12000);
+    }
 }
 
 void enterUnicode()
